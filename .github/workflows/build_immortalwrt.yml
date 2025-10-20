@@ -141,7 +141,10 @@ jobs:
 
       - name: 下载DI库
         working-directory: openWRT
-        run: make download -j1 V=s
+        run: |
+          make download -j1 V=s
+          find dl -size -1024c -exec ls -l {} \;
+          find dl -size -1024c -exec rm -f {} \;
 
       - name: 多线程编译 openWRT (Build openWRT multithreading)
         if: ${{inputs.multithreading == true}}
