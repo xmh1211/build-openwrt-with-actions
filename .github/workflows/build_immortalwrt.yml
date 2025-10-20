@@ -129,6 +129,10 @@ jobs:
             openWRT/feeds.conf.default
           include-hidden-files: true
 
+      - name: 下载DI库
+        working-directory: openWRT
+        run: make download -j8 V=s
+
       - name: 多线程编译 openWRT (Build openWRT multithreading)
         if: ${{inputs.multithreading == true}}
         working-directory: openWRT
