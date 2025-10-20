@@ -111,9 +111,13 @@ jobs:
           chmod +x diy1.sh
           ./diy1.sh
 
-      - name: 更新并下载 feeds (Update and download feeds)
+      - name: 更新feeds (Update feeds)
         working-directory: openWRT
-        run: ./scripts/feeds update -a &&./scripts/feeds update -a && ./scripts/feeds update -a && ./scripts/feeds install -a && ./scripts/feeds install -a && ./scripts/feeds install -a
+        run: ./scripts/feeds update -a &&./scripts/feeds update -a && ./scripts/feeds update -a
+
+      - name: 下载 feeds (download feeds)
+        working-directory: openWRT
+        run: ./scripts/feeds install -a && ./scripts/feeds install -a && ./scripts/feeds install -a
 
       - name: 运行 diy2.sh (Run diy2.sh)
         working-directory: openWRT
