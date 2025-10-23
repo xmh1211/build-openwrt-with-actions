@@ -17,7 +17,7 @@ on:
         description: "openWRT 仓库的分支 (Branch of openWRT repo)"
         type: string
         required: true
-        default: "openwrt-24.10"
+        default: "master"
       multithreading:
         description: "开启多线程编译 (Enable multithreading build)"
         type: boolean
@@ -99,17 +99,17 @@ jobs:
           path: openWRT
 
       - name: 复制当前仓库的配置文件到 openWRT 仓库  (Copy current repo config to openWRT repo)
-        run: cp -f .config diy1.sh diy2.sh openWRT/
+        run: cp -f .config diy.sh openWRT/
 
       - name: 如果选择了上传 files 大法，则复制 files 目录到 openWRT 仓库 (If you choose to upload the etc files, copy the etc directory to the openWRT repo)
         if: ${{inputs.isFiles == true}}
         run: cp -r files openWRT/files
 
-      - name: 运行 diy1.sh (Run diy1.sh)
+      - name: 运行 diy.sh (Run diy.sh)
         working-directory: openWRT
         run: |
-          chmod +x diy1.sh
-          ./diy1.sh
+          chmod +x diy.sh
+          ./diy.sh
 
       - name: 更新feeds (Update feeds)
         working-directory: openWRT
@@ -118,13 +118,7 @@ jobs:
       - name: 下载 feeds (download feeds)
         working-directory: openWRT
         run: ./scripts/feeds install -a && ./scripts/feeds install -a && ./scripts/feeds install -a
-
-      - name: 运行 diy2.sh (Run diy2.sh)
-        working-directory: openWRT
-        run: |
-          chmod +x diy2.sh
-          ./diy2.sh
-
+        
       - name: 使用ssh连接编译环境，限时15分钟，可在连接后输入命令 `touch /tmp/keepalive` 保活 (Connect to the build environment using ssh)
         if: ${{inputs.ssh == true}}
         uses: csexton/debugger-action@master
@@ -142,6 +136,7 @@ jobs:
       - name: 下载DI库
         working-directory: openWRT
         run: |
+          make defconfig
           make download -j1 V=s
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
