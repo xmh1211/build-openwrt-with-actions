@@ -132,7 +132,12 @@ jobs:
             openWRT/.config
             openWRT/feeds.conf.default
           include-hidden-files: true
-
+          
+      - name: 更新默认配置
+        working-directory: openWRT
+        run: |
+          make defconfig
+          
       - name: 下载DI库
         working-directory: openWRT
         run: |
