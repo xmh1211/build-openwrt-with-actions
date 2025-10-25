@@ -21,7 +21,7 @@ on:
       multithreading:
         description: "开启多线程编译 (Enable multithreading build)"
         type: boolean
-        default: true
+        default: false
 
 jobs:
   build:
