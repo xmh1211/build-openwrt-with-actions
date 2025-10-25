@@ -54,7 +54,9 @@ jobs:
         
       - name: 更新并下载软件包
         working-directory: openWRT
-        run: ./scripts/feeds update -a && ./scripts/feeds install -a
+        run: |
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
         
       - name: 更新默认配置文件
         working-directory: openWRT
