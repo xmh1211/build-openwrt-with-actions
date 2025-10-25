@@ -58,7 +58,9 @@ jobs:
         
       - name: 更新默认配置文件
         working-directory: openWRT
-        run: make defconfig
+        run: |
+          cp diffconfig .config
+          make defconfig
         
       - name: 下载DI库
         working-directory: openWRT
